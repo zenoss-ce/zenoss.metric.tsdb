@@ -10,7 +10,9 @@ node {
 
     stage('Build') {
       withMaven() {
-        sh "mvn -B package"
+        configFileProvider([configFile(fileId: 'bintray', variable: 'MAVEN_SETTINGS')]) {
+          sh "mvn -s $MAVEN_SETTINGS -B package"
+        }
       }
     }
 
